@@ -5,49 +5,56 @@ import React from 'react';
 import classNames from 'classnames';
 
 // Button 尺寸
-export enum ButtonSize {
-  Large = 'large',
-  Small = 'small',
-}
+export type ButtonSize = 'large' | 'small';
 
 // Button 类型
-export enum ButtonType {
-  Primary = 'primary',
-  Default = 'default',
-  Danger = 'danger',
-  Link = 'link',
-}
+export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
 
 // 定义 Button 属性类型
 interface BaseButtonProps {
   className?: string;
   disabled?: boolean;
   size?: ButtonSize;
-  type?: ButtonType;
+  buttonType?: ButtonType;
   href?: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-function Button(props: BaseButtonProps) {
+// 定义交叉类型
+type NativeButtonProps = BaseButtonProps &
+  React.ButtonHTMLAttributes<HTMLElement>;
+type AnchorButtonProps = BaseButtonProps &
+  React.AnchorHTMLAttributes<HTMLElement>;
+export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
+
+function Button(props: ButtonProps): JSX.Element {
   // 解构属性
-  const { disabled, size, type, href, children } = props;
+  const {
+    disabled,
+    className,
+    size,
+    buttonType,
+    href,
+    children,
+    ...restProps
+  } = props;
 
   // 定义 class
-  const classes = classNames('button', {
-    [`button-${type}`]: type,
+  const classes = classNames('button', className, {
+    [`button-${buttonType}`]: buttonType,
     [`button-${size}`]: size,
-    disabled: type === ButtonType.Link && disabled,
+    disabled: buttonType === 'link' && disabled,
   });
 
-  if (type === ButtonType.Link) {
+  if (buttonType === 'link') {
     return (
-      <a className={classes} href={href}>
+      <a className={classes} href={href} {...restProps}>
         {children}
       </a>
     );
   } else {
     return (
-      <button className={classes} disabled={disabled}>
+      <button className={classes} disabled={disabled} {...restProps}>
         {children}
       </button>
     );
@@ -56,7 +63,7 @@ function Button(props: BaseButtonProps) {
 
 Button.defaultProps = {
   disabled: false,
-  type: ButtonType.Default,
+  buttonType: 'default',
 };
 
 export default Button;

@@ -1,17 +1,17 @@
 import React from 'react';
-import Button, { ButtonSize, ButtonType } from './components/Button/Button';
+import Button from './components/Button/Button';
 
 function App() {
   return (
     <div>
-      <Button type={ButtonType.Link} href="https://jack-wjq.top">
+      <Button buttonType="link" href="https://jack-wjq.top" target="_blank">
         你好
       </Button>
-      <Button type={ButtonType.Primary}>你好</Button>
-      <Button type={ButtonType.Danger} size={ButtonSize.Large}>
+      <Button buttonType="primary">你好</Button>
+      <Button buttonType="danger" size="large">
         test
       </Button>
-      <Button size={ButtonSize.Small}>你好</Button>
+      <Button size="small">你好</Button>
     </div>
   );
 }
