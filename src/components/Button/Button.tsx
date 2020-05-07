@@ -10,7 +10,7 @@ export type ButtonSize = 'large' | 'small';
 // Button 类型
 export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
 
-// 定义 Button 属性类型
+// Button 属性接口
 interface BaseButtonProps {
   className?: string;
   disabled?: boolean;
@@ -20,15 +20,16 @@ interface BaseButtonProps {
   children: React.ReactNode;
 }
 
-// 定义交叉类型
+// 交叉类型
 type NativeButtonProps = BaseButtonProps &
   React.ButtonHTMLAttributes<HTMLElement>;
 type AnchorButtonProps = BaseButtonProps &
   React.AnchorHTMLAttributes<HTMLElement>;
 
+// ButtonProps 类型
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
 
-function Button(props: ButtonProps): JSX.Element {
+const Button: React.FC<ButtonProps> = (props) => {
   // 解构属性
   const {
     disabled,
@@ -40,7 +41,7 @@ function Button(props: ButtonProps): JSX.Element {
     ...restProps
   } = props;
 
-  // 定义 class
+  // className
   const classes = classNames('button', className, {
     [`button-${buttonType}`]: buttonType,
     [`button-${size}`]: size,
@@ -60,8 +61,9 @@ function Button(props: ButtonProps): JSX.Element {
       </button>
     );
   }
-}
+};
 
+// 属性默认值
 Button.defaultProps = {
   disabled: false,
   buttonType: 'default',
