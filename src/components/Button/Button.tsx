@@ -45,7 +45,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   const classes = classNames('button', className, {
     [`button-${buttonType}`]: buttonType,
     [`button-${size}`]: size,
-    disabled: buttonType === 'link' && disabled,
+    disabled: buttonType === 'link' && disabled
   });
 
   if (buttonType === 'link') {
@@ -66,7 +66,7 @@ const Button: React.FC<ButtonProps> = (props) => {
 // 属性默认值
 Button.defaultProps = {
   disabled: false,
-  buttonType: 'default',
+  buttonType: 'default'
 };
 
 export default Button;
